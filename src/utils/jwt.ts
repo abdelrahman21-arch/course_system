@@ -4,11 +4,17 @@ import { env } from '../config/env';
 export type JwtPayload = { sub: string; role: string };
 
 export const signAccessToken = (payload: JwtPayload): string => {
-  return jwt.sign(payload, env.jwtAccessSecret, { expiresIn: env.jwtAccessExpiresIn });
+  const options: jwt.SignOptions = {
+    expiresIn: env.jwtAccessExpiresIn as jwt.SignOptions['expiresIn']
+  };
+  return jwt.sign(payload, env.jwtAccessSecret, options);
 };
 
 export const signRefreshToken = (payload: JwtPayload): string => {
-  return jwt.sign(payload, env.jwtRefreshSecret, { expiresIn: env.jwtRefreshExpiresIn });
+  const options: jwt.SignOptions = {
+    expiresIn: env.jwtRefreshExpiresIn as jwt.SignOptions['expiresIn']
+  };
+  return jwt.sign(payload, env.jwtRefreshSecret, options);
 };
 
 export const verifyAccessToken = (token: string): JwtPayload => {

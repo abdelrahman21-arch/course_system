@@ -9,7 +9,13 @@ export class CourseRepository {
     return CourseModel.findById(id).populate('instructor', 'name email role').exec();
   }
 
-  async create(data: Pick<Course, 'title' | 'description' | 'instructor' | 'capacity' | 'active'>) {
+  async create(data: {
+    title: Course['title'];
+    description: Course['description'];
+    instructor: string;
+    capacity: Course['capacity'];
+    active: Course['active'];
+  }) {
     return CourseModel.create(data);
   }
 
