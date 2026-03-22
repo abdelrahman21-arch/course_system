@@ -6,6 +6,8 @@ const courseSchema = new Schema(
     description: { type: String, default: '' },
     instructor: { type: Types.ObjectId, ref: 'User', required: true },
     capacity: { type: Number, default: 0 },
+    duration: { type: Number, default: 0, min: 0 },
+    cost: { type: Number, default: 0, min: 0 },
     active: { type: Boolean, default: true }
   },
   { timestamps: true }
@@ -13,3 +15,5 @@ const courseSchema = new Schema(
 
 export type Course = InferSchemaType<typeof courseSchema>;
 export const CourseModel = model('Course', courseSchema);
+
+

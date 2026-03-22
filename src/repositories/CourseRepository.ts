@@ -14,6 +14,8 @@ export class CourseRepository {
     description: Course['description'];
     instructor: string;
     capacity: Course['capacity'];
+    duration: Course['duration'];
+    cost: Course['cost'];
     active: Course['active'];
   }) {
     return CourseModel.create(data);
@@ -23,3 +25,4 @@ export class CourseRepository {
     return CourseModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 }
+
