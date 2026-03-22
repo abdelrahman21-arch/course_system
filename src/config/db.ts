@@ -23,10 +23,11 @@ export const connectDb = async (): Promise<typeof mongoose> => {
     cached.promise = mongoose.connect(env.mongoUri, {
       maxPoolSize: 1,
       minPoolSize: 0,
-      socketTimeoutMS: 45000,
-      connectTimeoutMS: 15000,
-      serverSelectionTimeoutMS: 10000,
-      family: 4 // Use IPv4, IPv6 can be slow on Vercel
+      socketTimeoutMS: 60000,        // Increased from 45000
+      connectTimeoutMS: 20000,        // Increased from 15000
+      serverSelectionTimeoutMS: 20000, // Increased from 10000
+      heartbeatFrequencyMS: 10000,    // Added for better health checks
+      family: 4
     });
   }
 
