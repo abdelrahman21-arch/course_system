@@ -7,6 +7,16 @@ declare global {
 
 import mongoose from 'mongoose';
 import { env } from './env';
+mongoose.set('bufferTimeoutMS', 30000);
+
+const getMongoHost = (uri: string): string => {
+  try {
+    const parsed = new URL(uri);
+    return parsed.host || 'unknown';
+  } catch {
+    return 'unknown';
+  }
+};
 
 let cached = global.mongoose || { conn: null, promise: null };
 
@@ -21,6 +31,7 @@ export const connectDb = async (): Promise<typeof mongoose> => {
 
   if (!cached.promise) {
     console.log('Attempting to connect to MongoDB...');
+    console.log(`MongoDB envs: MONGODB_URI=${!!process.env.MONGODB_URI}, MONGO_URI=${!!process.env.MONGO_URI}, host=${getMongoHost(env.mongoUri)}`);
     cached.promise = mongoose
       .connect(env.mongoUri, {
         maxPoolSize: 1,
@@ -39,19 +50,25 @@ export const connectDb = async (): Promise<typeof mongoose> => {
         throw err;
       });
   }
+
   cached.conn = await cached.promise;
   console.log('MongoDB connected successfully');
+
   mongoose.connection.on('error', (err) => {
-  console.error('Mongoose connection error event:', err);
-});
+    console.error('Mongoose connection error event:', err);
+  });
 
-mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected via event');
-});
+  mongoose.connection.on('connected', () => {
+    console.log('Mongoose connected via event');
+  });
 
-mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected via event');
-});
+  mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose disconnected via event');
+  });
+
   return cached.conn;
 };
+
+
+
 
