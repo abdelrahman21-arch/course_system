@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import routes from './routes';
 import { notFound, errorHandler } from './middlewares/errorHandler';
+import { dbConnectMiddleware } from './middlewares/dbConnect';
 
 const app = express();
 
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+app.use(dbConnectMiddleware);
 app.use('/api', routes);
 
 app.use(notFound);
