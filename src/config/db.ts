@@ -20,9 +20,9 @@ export const connectDb = async (): Promise<typeof mongoose> => {
   }
 
   if (!cached.promise) {
-    try {
-      console.log('Attempting to connect to MongoDB...');
-      cached.promise = mongoose.connect(env.mongoUri, {
+    console.log('Attempting to connect to MongoDB...');
+    cached.promise = mongoose
+      .connect(env.mongoUri, {
         maxPoolSize: 1,
         minPoolSize: 0,
         socketTimeoutMS: 60000,
@@ -32,13 +32,13 @@ export const connectDb = async (): Promise<typeof mongoose> => {
         w: 'majority',
         directConnection: false,
         ssl: true
+      })
+      .catch((err) => {
+        console.error('MongoDB connection error:', err);
+        cached.promise = null;
+        throw err;
       });
-    } catch (err) {
-      console.error('MongoDB connection error:', err);
-      throw err;
-    }
   }
-
   cached.conn = await cached.promise;
   console.log('MongoDB connected successfully');
   mongoose.connection.on('error', (err) => {
@@ -54,3 +54,4 @@ mongoose.connection.on('disconnected', () => {
 });
   return cached.conn;
 };
+

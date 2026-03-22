@@ -12,7 +12,7 @@ const getEnv = (key: string, fallback?: string): string => {
 
 export const env = {
   port: Number(process.env.PORT ?? 4000),
-  mongoUri: getEnv('MONGO_URI'),
+  mongoUri: getEnv('MONGO_URI', process.env.MONGODB_URI),
   jwtAccessSecret: getEnv('JWT_ACCESS_SECRET'),
   jwtRefreshSecret: getEnv('JWT_REFRESH_SECRET'),
   jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? '15m',
