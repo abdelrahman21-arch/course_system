@@ -41,5 +41,16 @@ export const connectDb = async (): Promise<typeof mongoose> => {
 
   cached.conn = await cached.promise;
   console.log('MongoDB connected successfully');
+  mongoose.connection.on('error', (err) => {
+  console.error('Mongoose connection error event:', err);
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected via event');
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('Mongoose disconnected via event');
+});
   return cached.conn;
 };
