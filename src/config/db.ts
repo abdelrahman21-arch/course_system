@@ -20,17 +20,26 @@ export const connectDb = async (): Promise<typeof mongoose> => {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(env.mongoUri, {
-      maxPoolSize: 1,
-      minPoolSize: 0,
-      socketTimeoutMS: 60000,        // Increased from 45000
-      connectTimeoutMS: 20000,        // Increased from 15000
-      serverSelectionTimeoutMS: 20000, // Increased from 10000
-      heartbeatFrequencyMS: 10000,    // Added for better health checks
-      family: 4
-    });
+    try {
+      console.log('Attempting to connect to MongoDB...');
+      cached.promise = mongoose.connect(env.mongoUri, {
+        maxPoolSize: 1,
+        minPoolSize: 0,
+        socketTimeoutMS: 60000,
+        connectTimeoutMS: 30000,  // Increased further
+        serverSelectionTimeoutMS: 30000,  // Increased further
+        retryWrites: true,
+        w: 'majority',
+        directConnection: false,
+        ssl: true
+      });
+    } catch (err) {
+      console.error('MongoDB connection error:', err);
+      throw err;
+    }
   }
 
   cached.conn = await cached.promise;
+  console.log('MongoDB connected successfully');
   return cached.conn;
 };
