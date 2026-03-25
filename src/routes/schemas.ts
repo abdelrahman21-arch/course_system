@@ -26,6 +26,7 @@ export const schemas = {
     body: z.object({
       title: z.string().min(2),
       description: z.string().optional(),
+      imageUrl: z.string().url().optional(),
       capacity: z.number().int().min(0).optional(),
       duration: z.number().min(0).optional(),
       cost: z.number().min(0).optional()
@@ -35,6 +36,7 @@ export const schemas = {
     body: z.object({
       title: z.string().min(2).optional(),
       description: z.string().optional(),
+      imageUrl: z.string().url().optional(),
       capacity: z.number().int().min(0).optional(),
       duration: z.number().min(0).optional(),
       cost: z.number().min(0).optional(),
@@ -65,4 +67,5 @@ export const schemas = {
     })
   })
 };
+
 

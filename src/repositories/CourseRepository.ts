@@ -12,6 +12,7 @@ export class CourseRepository {
   async create(data: {
     title: Course['title'];
     description: Course['description'];
+    imageUrl: Course['imageUrl'];
     instructor: string;
     capacity: Course['capacity'];
     duration: Course['duration'];
@@ -25,4 +26,5 @@ export class CourseRepository {
     return CourseModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 }
+
 
