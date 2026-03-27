@@ -14,7 +14,7 @@ export class EnrollmentRepository {
   }
 
   async listByStudentCourse(studentId: string, courseId: string) {
-    return EnrollmentModel.find({ student: studentId, course: courseId }).populate('student', 'name email').exec();
+    return EnrollmentModel.find({ student: studentId, course: courseId }).populate('course').exec();
   }
 
   async listByCourse(courseId: string) {
