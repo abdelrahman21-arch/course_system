@@ -33,6 +33,10 @@ export class EnrollmentService {
     return this.enrollmentRepo.listByStudent(studentId);
   }
 
+  async listMyEnrollmentsByCourse(studentId: string, courseId: string) {
+    return this.enrollmentRepo.listByStudentCourse(studentId, courseId);
+  }
+
   async listCourseEnrollments(courseId: string) {
     return this.enrollmentRepo.listByCourse(courseId);
   }

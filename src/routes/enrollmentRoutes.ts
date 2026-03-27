@@ -19,6 +19,13 @@ const controller = new EnrollmentController(enrollmentService);
 router.post('/', requireAuth, requireRole('student'), validate(schemas.enroll), asyncHandler(controller.enroll));
 router.get('/me', requireAuth, requireRole('student'), asyncHandler(controller.listMy));
 router.get(
+  '/course/:courseId/me',
+  requireAuth,
+  requireRole('student'),
+  validate(schemas.courseIdParam),
+  asyncHandler(controller.listMyByCourse)
+);
+router.get(
   '/course/:courseId',
   requireAuth,
   requireRole('instructor'),

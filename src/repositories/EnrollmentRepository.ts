@@ -13,6 +13,10 @@ export class EnrollmentRepository {
     return EnrollmentModel.find({ student: studentId }).populate('course').exec();
   }
 
+  async listByStudentCourse(studentId: string, courseId: string) {
+    return EnrollmentModel.find({ student: studentId, course: courseId }).populate('course').exec();
+  }
+
   async listByCourse(courseId: string) {
     return EnrollmentModel.find({ course: courseId }).populate('student', 'name email').exec();
   }

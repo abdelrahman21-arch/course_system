@@ -14,6 +14,11 @@ export class EnrollmentController {
     res.json(enrollments);
   };
 
+  listMyByCourse = async (req: Request, res: Response) => {
+    const enrollments = await this.enrollmentService.listMyEnrollmentsByCourse(req.user!.id, req.params.courseId);
+    res.json(enrollments);
+  };
+
   listByCourse = async (req: Request, res: Response) => {
     const enrollments = await this.enrollmentService.listCourseEnrollments(req.params.courseId);
     res.json(enrollments);
