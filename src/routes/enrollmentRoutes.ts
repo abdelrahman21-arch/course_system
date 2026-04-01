@@ -51,7 +51,7 @@ router.patch(
 router.patch(
   '/course/:courseId/student/:studentId/cheating',
   requireAuth,
-  requireRole('instructor'),
+  requireRole('student'),
   validate(schemas.cheatingByCourseStudent),
   asyncHandler(controller.markCheatingByCourseStudent)
 );
