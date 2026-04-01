@@ -28,4 +28,17 @@ export class EnrollmentController {
     const updated = await this.enrollmentService.setGrade(req.params.enrollmentId, req.body.grade);
     res.json(updated);
   };
+
+  markCheating = async (req: Request, res: Response) => {
+    const updated = await this.enrollmentService.markCheating(req.params.enrollmentId);
+    res.json(updated);
+  };
+
+  markCheatingByCourseStudent = async (req: Request, res: Response) => {
+    const updated = await this.enrollmentService.markCheatingByCourseStudent(
+      req.params.courseId,
+      req.params.studentId
+    );
+    res.json(updated);
+  };
 }

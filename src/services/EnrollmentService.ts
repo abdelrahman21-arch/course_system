@@ -48,4 +48,17 @@ export class EnrollmentService {
     }
     return updated;
   }
+
+  async markCheating(enrollmentId: string) {
+    // F grade mapped to numeric 0 in this system
+    return this.setGrade(enrollmentId, 0);
+  }
+
+  async markCheatingByCourseStudent(courseId: string, studentId: string) {
+    const enrollment = await this.enrollmentRepo.findByStudentCourse(studentId, courseId);
+    if (!enrollment) {
+      throw new AppError('Enrollment not found', 404);
+    }
+    return this.setGrade(enrollment.id, 0);
+  }
 }

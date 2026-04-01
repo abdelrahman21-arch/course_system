@@ -40,4 +40,20 @@ router.patch(
   asyncHandler(controller.setGrade)
 );
 
+router.patch(
+  '/:enrollmentId/cheating',
+  requireAuth,
+  requireRole('instructor'),
+  validate(schemas.enrollmentIdParam),
+  asyncHandler(controller.markCheating)
+);
+
+router.patch(
+  '/course/:courseId/student/:studentId/cheating',
+  requireAuth,
+  requireRole('instructor'),
+  validate(schemas.cheatingByCourseStudent),
+  asyncHandler(controller.markCheatingByCourseStudent)
+);
+
 export default router;

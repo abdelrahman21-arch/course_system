@@ -61,6 +61,17 @@ export const schemas = {
       enrollmentId: objectId
     })
   }),
+  enrollmentIdParam: z.object({
+    params: z.object({
+      enrollmentId: objectId
+    })
+  }),
+  cheatingByCourseStudent: z.object({
+    params: z.object({
+      courseId: objectId,
+      studentId: objectId
+    })
+  }),
   examIdParam: z.object({
     params: z.object({
       examId: objectId
