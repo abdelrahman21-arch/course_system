@@ -18,6 +18,7 @@ const controller = new EnrollmentController(enrollmentService);
 
 router.post('/', requireAuth, requireRole('student'), validate(schemas.enroll), asyncHandler(controller.enroll));
 router.get('/me', requireAuth, requireRole('student'), asyncHandler(controller.listMy));
+router.get('/me/grades', requireAuth, requireRole('student'), asyncHandler(controller.listMyGrades));
 router.get(
   '/course/:courseId/me',
   requireAuth,
@@ -46,6 +47,14 @@ router.patch(
   requireRole('instructor'),
   validate(schemas.enrollmentIdParam),
   asyncHandler(controller.markCheating)
+);
+
+router.patch(
+  '/:enrollmentId/set-grade',
+  requireAuth,
+  requireRole('student'),
+  validate(schemas.gradeSet),
+  asyncHandler(controller.setStudentsOwnGrade)
 );
 
 router.patch(

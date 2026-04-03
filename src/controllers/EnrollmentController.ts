@@ -14,6 +14,11 @@ export class EnrollmentController {
     res.json(enrollments);
   };
 
+  listMyGrades = async (req: Request, res: Response) => {
+    const enrollments = await this.enrollmentService.listMyGrades(req.user!.id);
+    res.json(enrollments);
+  };
+
   listMyByCourse = async (req: Request, res: Response) => {
     const enrollments = await this.enrollmentService.listMyEnrollmentsByCourse(req.user!.id, req.params.courseId);
     res.json(enrollments);
@@ -26,6 +31,15 @@ export class EnrollmentController {
 
   setGrade = async (req: Request, res: Response) => {
     const updated = await this.enrollmentService.setGrade(req.params.enrollmentId, req.body.grade);
+    res.json(updated);
+  };
+
+  setStudentsOwnGrade = async (req: Request, res: Response) => {
+    const updated = await this.enrollmentService.setStudentsOwnGrade(
+      req.user!.id,
+      req.params.enrollmentId,
+      req.body.grade
+    );
     res.json(updated);
   };
 

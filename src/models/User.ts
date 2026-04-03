@@ -1,7 +1,5 @@
-import { Schema, model, type InferSchemaType } from 'mongoose';
-
-export const userRoles = ['student', 'instructor'] as const;
-export type UserRole = (typeof userRoles)[number];
+import { Schema, model } from 'mongoose';
+import { userRoles } from '../types/user';
 
 const userSchema = new Schema(
   {
@@ -14,6 +12,4 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
-
-export type User = InferSchemaType<typeof userSchema>;
 export const UserModel = model('User', userSchema);

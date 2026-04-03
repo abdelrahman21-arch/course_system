@@ -1,4 +1,5 @@
-import { CourseModel, type Course } from '../models/Course';
+import { CourseModel } from '../models/Course';
+import type { Course } from '../types/course';
 
 export class CourseRepository {
   async list() {

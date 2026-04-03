@@ -3,7 +3,7 @@ import { AppError } from '../utils/AppError';
 import { hashPassword, verifyPassword } from '../utils/password';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../utils/jwt';
 import { hashToken } from '../utils/token';
-import type { UserRole } from '../models/User';
+import type { UserRole } from '../types/user';
 
 export class AuthService {
   constructor(private userRepo: UserRepository) {}

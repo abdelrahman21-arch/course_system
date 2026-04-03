@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
-
-export type JwtPayload = { sub: string; role: string };
+import type { JwtPayload } from '../types/auth';
 
 export const signAccessToken = (payload: JwtPayload): string => {
   const options: jwt.SignOptions = {

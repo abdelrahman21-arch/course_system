@@ -33,6 +33,10 @@ export class EnrollmentService {
     return this.enrollmentRepo.listByStudent(studentId);
   }
 
+  async listMyGrades(studentId: string) {
+    return this.enrollmentRepo.listGradedByStudent(studentId);
+  }
+
   async listMyEnrollmentsByCourse(studentId: string, courseId: string) {
     return this.enrollmentRepo.listByStudentCourse(studentId, courseId);
   }
@@ -47,6 +51,19 @@ export class EnrollmentService {
       throw new AppError('Enrollment not found', 404);
     }
     return updated;
+  }
+
+  async setStudentsOwnGrade(studentId: string, enrollmentId: string, grade: number) {
+    const enrollment = await this.enrollmentRepo.findById(enrollmentId);
+    if (!enrollment) {
+      throw new AppError('Enrollment not found', 404);
+    }
+
+    if (String(enrollment.student) !== studentId) {
+      throw new AppError('Forbidden', 403);
+    }
+
+    return this.setGrade(enrollmentId, grade);
   }
 
   async markCheating(enrollmentId: string) {

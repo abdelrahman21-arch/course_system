@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken } from '../utils/jwt';
-import type { UserRole } from '../models/User';
+import type { UserRole } from '../types/user';
 import { AppError } from '../utils/AppError';
 
 export const requireAuth = (req: Request, _res: Response, next: NextFunction) => {

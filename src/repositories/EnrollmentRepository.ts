@@ -1,6 +1,10 @@
 import { EnrollmentModel } from '../models/Enrollment';
 
 export class EnrollmentRepository {
+  async findById(enrollmentId: string) {
+    return EnrollmentModel.findById(enrollmentId).exec();
+  }
+
   async findByStudentCourse(studentId: string, courseId: string) {
     return EnrollmentModel.findOne({ student: studentId, course: courseId }).exec();
   }
@@ -11,6 +15,13 @@ export class EnrollmentRepository {
 
   async listByStudent(studentId: string) {
     return EnrollmentModel.find({ student: studentId }).populate('course').exec();
+  }
+
+  async listGradedByStudent(studentId: string) {
+    return EnrollmentModel.find({ student: studentId, grade: { $ne: null } })
+      .populate('course')
+      .sort({ updatedAt: -1 })
+      .exec();
   }
 
   async listByStudentCourse(studentId: string, courseId: string) {

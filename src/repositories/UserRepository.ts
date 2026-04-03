@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
-import { UserModel, type User } from '../models/User';
+import { UserModel } from '../models/User';
+import type { User } from '../types/user';
 
 export class UserRepository {
   async findByEmail(email: string) {

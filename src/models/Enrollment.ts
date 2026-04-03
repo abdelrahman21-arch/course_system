@@ -1,4 +1,31 @@
-import { Schema, model, type InferSchemaType, Types } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
+import type { EnrollmentDocLike, LetterGrade } from '../types/enrollment';
+
+const getLetterGrade = (grade: number | null): LetterGrade | null => {
+  if (grade === null) {
+    return null;
+  }
+  if (grade >= 90) {
+    return 'A';
+  }
+  if (grade >= 80) {
+    return 'B';
+  }
+  if (grade >= 70) {
+    return 'C';
+  }
+  if (grade >= 60) {
+    return 'D';
+  }
+  return 'F';
+};
+
+const attachLetterGrade = (doc: EnrollmentDocLike | null) => {
+  if (!doc) {
+    return;
+  }
+  doc.set('letterGrade', getLetterGrade(doc.grade), { strict: false });
+};
 
 const enrollmentSchema = new Schema(
   {
@@ -11,6 +38,10 @@ const enrollmentSchema = new Schema(
 );
 
 enrollmentSchema.index({ student: 1, course: 1 }, { unique: true });
-
-export type Enrollment = InferSchemaType<typeof enrollmentSchema>;
+enrollmentSchema.post('find', function(docs: EnrollmentDocLike[]) {
+  docs.forEach(attachLetterGrade);
+});
+enrollmentSchema.post('findOne', attachLetterGrade);
+enrollmentSchema.post('findOneAndUpdate', attachLetterGrade);
+enrollmentSchema.post('save', attachLetterGrade);
 export const EnrollmentModel = model('Enrollment', enrollmentSchema);
